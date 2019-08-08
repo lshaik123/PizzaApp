@@ -18,19 +18,5 @@ public interface PizzaOrderService {
 	
 	public void saveFile() throws IOException;
 	
-	public PizaaOrder saveOrder(PizaaOrder pizzaOrder);
 	
-	@Query("select s from PizaOrder s where like %?1% ")
-	public List<PizaaOrder> findAll();
-	@Query("select s from PizaOrder s where like %?1% ")
-	public PizaaOrder findByName(String name);
-	
-	
-	@Query("select s from PizaOrder s where like %?1% ")
-	public List<PizaaOrder> findAlls(String name);
-	
-	
-	public Pizza save(Pizza pizza);
-	
-	public void sortByValue();
 }
