@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.aquent.model.Pizza;
@@ -23,9 +24,11 @@ public class PizzaOrderServiceImpl implements PizzaOrderService {
 
 	String file = "C:\\Users\\lshaik\\Documents\\Peojects\\PracticeWorkSpace\\SpringBootRestAPI\\sample_data_ordered.txt";
 
+	 private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(PizzaOrderServiceImpl.class);
 
 	@Override
 	public List<Pizza> readFile() throws IOException {
+		LOG.info("PizzaOrderServiceImpl.readFile method called ");
 		int i = 0;
 		BufferedReader bufferedReader = null;
 		List<Pizza> listPizzas = new ArrayList<Pizza>();
@@ -40,9 +43,13 @@ public class PizzaOrderServiceImpl implements PizzaOrderService {
 					pizza.setOrder(arr[0]);
 					pizza.setTime(Long.parseLong(arr[1]));
 					listPizzas.add(pizza);
+
 				}
 				i++;
+
 			}
+			LOG.info("PizzaOrderServiceImpl.readFile found the list of pizzas" +listPizzas);
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} finally {
@@ -53,6 +60,8 @@ public class PizzaOrderServiceImpl implements PizzaOrderService {
 
 	@Override
 	public void saveFile() throws IOException {
+		LOG.info("PizzaOrderServiceImpl.saveFile method called ");
+
 		File file = new File("C:\\Users\\lshaik\\Desktop\\text.txt");
 		FileOutputStream fos = new FileOutputStream(file);
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
@@ -65,10 +74,13 @@ public class PizzaOrderServiceImpl implements PizzaOrderService {
 				try {
 					bw.write(pizza.getOrder() + " " + pizza.getTime());
 					bw.newLine();
+
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 		});
+			LOG.info("PizzaOrderServiceImpl.saveFile methiod copied into different file");
+
 		}
 		bw.close();
 	}
