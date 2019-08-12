@@ -12,10 +12,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
+import com.aquent.model.PizaaOrder;
 import com.aquent.model.Pizza;
+import com.aquent.rowmapper.PizzaRowMapper;
 import com.aquent.service.PizzaOrderService;
 import com.aquent.sort.comparator.SortByAscendingOrder;
 
@@ -25,6 +32,18 @@ public class PizzaOrderServiceImpl implements PizzaOrderService {
 	String file = "C:\\Users\\lshaik\\Documents\\Peojects\\PracticeWorkSpace\\SpringBootRestAPI\\sample_data_ordered.txt";
 
 	 private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(PizzaOrderServiceImpl.class);
+	
+	 
+	 private JdbcTemplate jdbcTemplate;
+	 @Autowired
+	 private DataSource dataSource;
+	 
+	 private PizzaRowMapper rowMapper= new PizzaRowMapper();
+	 
+     @Autowired
+	public void setJdbcTemplate(DataSource dataSource) {
+		this.jdbcTemplate = new JdbcTemplate(dataSource);
+	}
 
 	@Override
 	public List<Pizza> readFile() throws IOException {
@@ -83,6 +102,33 @@ public class PizzaOrderServiceImpl implements PizzaOrderService {
 
 		}
 		bw.close();
+	}
+
+	@Override
+	public int insert(PizaaOrder pizaorder) {
+		
+		String sql= "INSERT into aquent_db.store(id,name,type,date) values(?,?,?,?)";
+		
+		Object[] params= new Object[] {
+				pizaorder.getId(),
+				pizaorder.getName(),
+				pizaorder.getType(),
+				pizaorder.getDate()
+				
+		};
+				return jdbcTemplate.update(sql, params);		
+	}
+
+	@Override
+	public List<PizaaOrder> findAll() {
+		String Sql= "Select * from aquent_db.store";
+		return jdbcTemplate.query(Sql, rowMapper);
+	}
+
+	@Override
+	public PizaaOrder findById(int id) {
+		String sql= "SELECT * FROM store WHERE id=?";
+		return jdbcTemplate.queryForObject(sql, rowMapper, id);
 	}
 
 	

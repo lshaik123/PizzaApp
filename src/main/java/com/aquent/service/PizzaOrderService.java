@@ -18,5 +18,11 @@ public interface PizzaOrderService {
 	
 	public void saveFile() throws IOException;
 	
+	public int insert(PizaaOrder pizaorder);
+	
+	public List<PizaaOrder> findAll();
+	
+	public PizaaOrder findById(int id);
+	
 	
 }

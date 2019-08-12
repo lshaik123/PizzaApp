@@ -12,9 +12,6 @@ public class SpringStrartUp {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringStrartUp.class, args);
-		
-		
-
 	}
 
 }

@@ -12,9 +12,10 @@ public class PizzaRowMapper implements RowMapper<PizaaOrder>{
 	@Override
 	public PizaaOrder mapRow(ResultSet rs, int rowNum) throws SQLException {
 		PizaaOrder pizzaOrder= new PizaaOrder();
+		pizzaOrder.setId(rs.getInt("id"));
 		pizzaOrder.setName(rs.getString("name"));
 		pizzaOrder.setType(rs.getString("type"));
-		pizzaOrder.setDate(rs.getDate("date"));
+		pizzaOrder.setDate(rs.getLong("date"));
 		
 		return pizzaOrder;
 	}
